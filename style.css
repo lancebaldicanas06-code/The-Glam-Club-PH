@@ -1,0 +1,1527 @@
+
+/* Theme variables */
+:root {
+    --primaryBg: #A97142; /* Main brown */
+    --secondaryBg: #FDF5E6; /* Off-white for content */
+    --sidebarBg: #3D2B1F; /* Dark brown for sidebar */
+    --accentColor: #8B4513; /* SaddleBrown for buttons */
+    --accentHover: #A0522D; /* Sienna for hover */
+    --textLight: #FFFFFF;
+    --textDark: #3D2B1F;
+    --borderColor: #D2B48C; /* Tan for borders */
+    --shadowColor: rgba(0, 0, 0, 0.1);
+    --lowStockColor: #d9534f;
+    --cancelColor: #777; 
+    --pendingColor: #e67e22; /* Orange for pending */
+    --refundColor: #8e44ad; /* Purple for refunded */
+    --completedColor: #27ae60; /* Green for completed */
+    --fontPrimary: "Montserrat", sans-serif;
+    --fontSecondary: "Cormorant Garamond", serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--fontPrimary);
+    background-color: var(--secondaryBg);
+    color: var(--textDark);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Fallback logo placeholder if image is missing */
+.logo-placeholder {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: var(--primaryBg);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--fontSecondary);
+    font-weight: bold;
+    font-size: 1.5rem;
+    border: 3px solid var(--borderColor);
+    margin: 0 auto 1rem auto;
+}
+
+/* Login screen */
+#loginScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--secondaryBg) 0%, #e6dace 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    transition: opacity 0.5s ease-out;
+}
+
+.loginContainer {
+    width: 100%;
+    max-width: 400px;
+    padding: 3rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.loginContainer .logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid var(--borderColor);
+    margin-bottom: 1rem;
+    object-fit: cover;
+}
+
+.loginContainer h1 {
+    font-family: var(--fontSecondary);
+    font-size: 2rem;
+    color: var(--primaryBg);
+    margin-bottom: 0.5rem;
+}
+
+/* Role Selection Styles */
+.rolePrompt {
+    margin-bottom: 1.5rem;
+    color: #777;
+    font-size: 1.1rem;
+}
+
+.roleButtons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.roleBtn {
+    background-color: #f9f9f9;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    padding: 1.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.roleBtn i {
+    font-size: 2rem;
+    color: var(--primaryBg);
+}
+
+.roleBtn span {
+    font-family: var(--fontSecondary);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--textDark);
+}
+
+.roleBtn:hover {
+    background-color: var(--secondaryBg);
+    border-color: var(--primaryBg);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px var(--shadowColor);
+}
+
+/* Back text button */
+.btnText {
+    background: none;
+    border: none;
+    color: #777;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.3s;
+}
+
+.btnText:hover {
+    color: var(--primaryBg);
+}
+
+
+.loginContainer .formGroup {
+    text-align: left;
+}
+
+.loginContainer .formGroup input {
+    background-color: #f9f9f9;
+    border: 2px solid #eee;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.loginContainer .formGroup input:focus {
+    outline: none;
+    border-color: var(--primaryBg);
+    box-shadow: 0 0 0 3px rgba(169, 113, 66, 0.2);
+}
+
+
+#loginError {
+    color: var(--lowStockColor);
+    background-color: #fdd;
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+/* Password wrapper */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex; /* Ensures the input fills the wrapper correctly */
+    align-items: center;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 40px; /* Make space for the eye icon */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    cursor: pointer;
+    color: #777;
+    z-index: 10;
+    font-size: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.toggle-password:hover {
+    color: var(--primaryBg);
+}
+
+
+/* Main layout */
+.appContainer {
+    display: flex;
+    height: 100vh; /* fixed height */
+    overflow: hidden; /* Prevent the main window from scrolling */
+}
+
+/* Sidebar transitions */
+.appContainer .sidebar {
+    transition: transform 0.28s ease, visibility 0.28s ease, width 0.28s ease, padding 0.28s ease;
+}
+
+/* Sidebar collapsed state */
+.appContainer.sidebar-collapsed .sidebar {
+    transform: translateX(-110%);
+    visibility: hidden;
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Main content when sidebar collapsed */
+.appContainer.sidebar-collapsed .mainContent {
+    flex-basis: 100%;
+}
+
+/* Hamburger toggle (small screens) */
+.hamburgerBtn {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 3000;
+    background: var(--textLight);
+    color: var(--sidebarBg);
+    border: 1px solid var(--borderColor);
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadowColor);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.hamburgerBtn i { font-size: 1.1rem; }
+
+@media (max-width: 768px) {
+    .hamburgerBtn { display: flex; }
+    /* When on small screens, allow main content to occupy full width */
+    .appContainer .mainContent { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+
+/* Toasts */
+.toast-container {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 4000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    pointer-events: none; /* allow clicks through empty areas */
+}
+.toast {
+    pointer-events: auto;
+    min-width: 220px;
+    max-width: 360px;
+    background: #fff;
+    color: var(--textDark);
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    border-left: 6px solid var(--primaryBg);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    animation: toastIn 0.25s ease-out;
+}
+.toast.info { border-left-color: var(--primaryBg); }
+.toast.success { border-left-color: var(--completedColor); }
+.toast.error { border-left-color: var(--lowStockColor); }
+.toast .toast-icon { width: 26px; text-align: center; }
+
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebarBg);
+    color: var(--textLight);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+    flex-shrink: 0;
+    height: 100%; /* Ensure sidebar fills the height */
+    overflow-y: auto; /* Allow sidebar to scroll internally if screen is very short */
+}
+
+.sidebarHeader {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid var(--borderColor);
+    margin-bottom: 0.5rem;
+    object-fit: cover;
+}
+
+.sidebarHeader h1 {
+    font-family: var(--fontSecondary);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.sidebarNav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-grow: 1;
+}
+
+.sidebarNav button {
+    background: none;
+    border: none;
+    color: var(--textLight);
+    font-family: var(--fontPrimary);
+    font-size: 1rem;
+    text-align: left;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sidebarNav button:hover {
+    background-color: var(--accentHover);
+}
+
+/* Specific style for the Logout button */
+.sidebarNav button.logoutBtn {
+    margin-top: auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebarNav button.logoutBtn:hover {
+    background-color: #c0392b; /* Red color for logout */
+    border-color: #c0392b;
+}
+
+
+.sidebarFooter {
+    text-align: center;
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-top: 1rem;
+}
+
+.mainContent {
+    flex-grow: 1;
+    padding: 2rem;
+    overflow-y: auto; /* This allows only the right side to scroll */
+    position: relative;
+    height: 100%; /* Ensure content area fills the height */
+}
+
+
+
+section {
+    display: none;
+}
+
+section.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    font-family: var(--fontSecondary);
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primaryBg);
+    border-bottom: 2px solid var(--borderColor);
+    padding-bottom: 0.5rem;
+}
+
+/* Dashboard Widgets */
+.dashboardWidgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.widget {
+    background-color: var(--textLight);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadowColor);
+    border-left: 5px solid var(--primaryBg);
+}
+
+.widget.lowStockWidget {
+    border-left-color: var(--lowStockColor);
+}
+
+.widget h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #555;
+}
+
+.widget p {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--textDark);
+}
+
+/* Inventory & Product Grid */
+.filterBar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-end;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px var(--shadowColor);
+}
+
+.filterGroup {
+    flex-grow: 1;
+    min-width: 150px;
+    margin-bottom: 0; 
+}
+
+.filterGroup label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+.filterGroup label i {
+    margin-right: 0.25rem;
+    color: var(--primaryBg);
+}
+
+.filterBar .filterButton {
+    width: auto;
+    margin-top: 0;
+    height: 44px; 
+    flex-shrink: 0;
+}
+
+.inventoryGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.inventoryItem {
+    background-color: var(--textLight);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadowColor);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s, box-shadow 0.3s;
+    min-height: 170px;
+}
+
+.inventoryItem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadowColor);
+}
+
+.itemDetails {
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.itemDetails h3 {
+    font-family: var(--fontSecondary);
+    font-size: 1.4rem;
+    margin-bottom: 0.25rem;
+}
+
+.itemDetails .itemMeta {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+}
+
+.itemDetails .itemPrice {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accentColor);
+    margin-bottom: auto;
+    padding-top: 0.5rem;
+}
+
+.itemStock {
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    background-color: var(--secondaryBg);
+    align-self: flex-start;
+}
+
+.itemStock.low {
+    background-color: #fdd;
+    color: #c00;
+}
+
+.emptyMessage {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+    font-size: 1.1rem;
+}
+
+/* Order Creation Layout */
+.orderLayout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+.orderProducts, .orderCart {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadowColor);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Make the cart sticky */
+.orderCart {
+    position: sticky;
+    top: 2rem; /* Matches mainContent padding */
+    max-height: calc(100vh - 4rem); /* Prevents cart from being taller than viewport */
+}
+
+.orderProducts #orderProductList {
+    overflow-y: auto;
+    flex-grow: 1;
+    padding-right: 10px;
+}
+
+/* Style for search bar in order section */
+.orderProducts .formGroup {
+    margin-bottom: 1rem;
+}
+
+.orderProducts .filterBar .formGroup {
+    margin-bottom: 0;
+}
+
+
+.orderProducts .inventoryItem {
+    cursor: pointer;
+}
+
+.orderCart #cartItems {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin: 1rem 0;
+    padding-right: 10px;
+}
+
+.cartItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cartItemInfo {
+    flex-grow: 1;
+    margin-right: 0.5rem;
+}
+
+.cartItemInfo span {
+    display: block;
+}
+
+.cartItemInfo .itemName {
+    font-weight: 600;
+}
+
+.cartItemInfo .itemMetaSmall {
+    font-size: 0.8rem;
+    color: #777;
+}
+
+.cartItemInfo .itemPrice {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 0.25rem;
+}
+
+.cartItemQty input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.cartItem .removeBtn {
+    background: none;
+    border: none;
+    color: var(--lowStockColor);
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin-left: 1rem;
+    flex-shrink: 0;
+}
+
+.cartSummary {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--borderColor);
+}
+
+.emptyCartMsg {
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+}
+
+/* History Section */
+.historyFilterBar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.filterTag {
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.filterTag:hover {
+    background: #eee;
+}
+
+.filterTag.active {
+    background: var(--primaryBg);
+    color: white;
+    border-color: var(--primaryBg);
+}
+
+.searchBar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+#historySearchInput {
+    flex-grow: 1;
+    padding: 0.7rem 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--borderColor);
+    background: #fff;
+    font-size: 1rem;
+    height: 44px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.searchBar input::placeholder {
+    color: #9b8b7a;
+}
+
+.receiptCard {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px var(--shadowColor);
+    cursor: pointer;
+    transition: box-shadow 0.3s, opacity 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+#historyList .receiptCard {
+    cursor: pointer;
+}
+#cancelledReceiptList .receiptCard {
+    cursor: pointer;
+}
+
+
+.receiptCard:hover {
+    box-shadow: 0 4px 15px var(--shadowColor);
+}
+
+.receiptCardInfo {
+    flex-grow: 1;
+}
+
+.receiptCardActions {
+    flex-shrink: 0;
+    margin-left: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: row;
+    align-items: center;
+}
+
+/* Status Badges for History List */
+.statusBadge {
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.statusBadge.pending {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+.statusBadge.completed {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.statusBadge.refunded {
+    background-color: #f3e5f5;
+    color: #8e44ad;
+    border: 1px solid #e1bee7;
+}
+.statusBadge.cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
+/* Status specific styles */
+.receiptCard .status.cancelled {
+    font-weight: 700;
+    color: var(--cancelColor);
+    font-size: 0.9rem;
+}
+
+.receiptCard.is-cancelled {
+    opacity: 0.7;
+    background: #f9f9f9;
+}
+.receiptCard.is-cancelled .receiptCardInfo {
+    color: var(--cancelColor);
+}
+
+
+.btnCancel, .btnPay, .btnRefund {
+    background: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.btnCancel {
+    border: 1px solid var(--lowStockColor);
+    color: var(--lowStockColor);
+}
+.btnCancel:hover {
+    background: var(--lowStockColor);
+    color: var(--textLight);
+}
+
+.btnPay {
+    border: 1px solid var(--pendingColor);
+    color: var(--pendingColor);
+}
+.btnPay:hover {
+    background: var(--pendingColor);
+    color: var(--textLight);
+}
+
+.btnRefund {
+    border: 1px solid var(--refundColor);
+    color: var(--refundColor);
+}
+.btnRefund:hover {
+    background: var(--refundColor);
+    color: var(--textLight);
+}
+
+.adminGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.adminCard {
+    background: #fff;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadowColor);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.adminCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadowColor);
+}
+
+.adminCard i {
+    font-size: 3rem;
+    color: var(--primaryBg);
+    margin-bottom: 1rem;
+}
+
+.adminCard h3 {
+    font-family: var(--fontSecondary);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Modal styles */
+#modalBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#modalContent {
+    background-color: var(--secondaryBg);
+    padding: 2rem;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+/* Fullscreen modal */
+.modalContent-fullscreen {
+    width: 98% !important;
+    max-width: none !important;
+    height: 95vh !important;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem !important;
+}
+
+.modal-body-scroll {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Wide modal */
+.modalContent-wide {
+    width: 98%;
+    max-width: none;
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* Modal offset to main panel */
+.modalBackdrop-mainPanel {
+    left: 260px !important; /* Sidebar width */
+    width: calc(100% - 260px) !important;
+    height: 100% !important;
+    top: 0 !important;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* Modal covers full width if sidebar collapsed */
+.appContainer.sidebar-collapsed + #modalBackdrop.modalBackdrop-mainPanel {
+    left: 0 !important;
+    width: 100% !important;
+}
+
+/* Modal transitions */
+#modalBackdrop {
+    transition: left 0.28s ease, width 0.28s ease, background-color 0.2s ease;
+}
+
+/* Modal content transition */
+.modalContent-fullscreen {
+    transition: width 0.28s ease, height 0.28s ease, padding 0.28s ease;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--borderColor);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    position: relative; /* For cancelled stamp */
+}
+
+.modalHeader h3 {
+    font-family: var(--fontSecondary);
+    font-size: 1.8rem;
+    color: var(--primaryBg);
+}
+
+/* Cancelled stamp for receipt modal */
+.modalHeader h3.cancelled-stamp {
+    font-family: var(--fontSecondary);
+    font-size: 1.8rem;
+    color: var(--lowStockColor);
+}
+.receiptModal.cancelled-receipt .receipt-box {
+    opacity: 0.7;
+    color: var(--cancelColor);
+    /* REMOVED: text-decoration: line-through; */
+}
+
+/* Pending/Refunded Stamps for Modal */
+.modalHeader h3.pending-stamp {
+    color: var(--pendingColor);
+}
+.modalHeader h3.refunded-stamp {
+    color: var(--refundColor);
+}
+
+.modalCloseBtn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #888;
+}
+/* Ensures the close button has an icon if not provided by HTML content */
+.modalCloseBtn::before {
+    content: "\f00d";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+/* ORGANIZED RECEIPT STYLING */
+.receipt-box {
+    font-family: 'Courier New', Courier, monospace;
+    background: #fff;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+.receipt-header-section {
+    text-align: center;
+    border-bottom: 2px dashed #333;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+.receipt-header-section h2 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+    margin: 0;
+    border: none;
+    padding: 0;
+    color: #000;
+}
+.receipt-details {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+.receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+}
+.receipt-table th {
+    text-align: left;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+}
+.receipt-table td {
+    padding: 5px 0;
+}
+.receipt-table .text-right {
+    text-align: right;
+}
+.receipt-totals {
+    border-top: 2px dashed #333;
+    padding-top: 0.5rem;
+}
+.receipt-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+.receipt-total-row {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    border-top: 1px solid #ccc;
+    padding-top: 0.5rem;
+}
+.receipt-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+/* Watermarks for Receipt Status */
+.receipt-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 3rem;
+    font-weight: 900;
+    opacity: 0.4; /* Increased opacity for readability */
+    pointer-events: none;
+    white-space: nowrap;
+    border: 5px solid currentColor; /* Use text color for border */
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    z-index: 10;
+    letter-spacing: 2px;
+}
+
+.receipt-watermark.pending {
+    color: var(--pendingColor);
+}
+.receipt-watermark.refunded {
+    color: var(--refundColor);
+}
+.receipt-watermark.cancelled {
+    color: var(--lowStockColor); /* Use red/danger color for cancelled */
+}
+
+
+/* Form Elements */
+.formGroup {
+    margin-bottom: 1rem;
+}
+.formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+.formGroup input, .formGroup select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: var(--fontPrimary);
+    height: 44px;
+}
+.formGroup input:focus, .formGroup select:focus {
+    outline: none;
+    border-color: var(--primaryBg);
+    box-shadow: 0 0 0 3px rgba(169, 113, 66, 0.2);
+}
+
+/* Grid layout for admin forms */
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+.formGrid .formGroup {
+    margin-bottom: 0;
+}
+
+
+/* Buttons */
+.btnPrimary {
+    background-color: var(--accentColor);
+    color: var(--textLight);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-top: 1rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    height: 44px; 
+}
+.btnPrimary:hover {
+    background-color: var(--accentHover);
+}
+.btnSecondary {
+    background-color: #777;
+    color: var(--textLight);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    height: 44px; 
+}
+.btnSecondary:hover {
+    background-color: #555;
+}
+
+/* Button Group for Payment Modal */
+.btnGroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+}
+.btnGroup .btnPrimary, .btnGroup .btnSecondary {
+    margin-top: 0;
+}
+
+.modalFooter {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--borderColor);
+    padding-top: 1rem;
+}
+
+.modalFooter .btnPrimary, .modalFooter .btnSecondary {
+    width: auto;
+    margin-top: 0;
+}
+
+.hidden {
+    display: none !important;
+}
+.textCenter {
+    text-align: center;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+/* color filter */
+.filterGroup.colorFilterGroup {
+    min-width: 120px;
+    flex-grow: 0.1;
+}
+
+/* PROFILE SECTION STYLES */
+.profileContainer {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profileCard {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px var(--shadowColor);
+    overflow: hidden;
+}
+
+.profileHeader {
+    background-color: var(--sidebarBg);
+    color: var(--textLight);
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.profileAvatar {
+    width: 80px;
+    height: 80px;
+    background: var(--secondaryBg);
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid var(--borderColor);
+}
+
+.profileAvatar i {
+    font-size: 2.5rem;
+    color: var(--primaryBg);
+}
+
+.profileHeader h3 {
+    margin: 0;
+    font-family: var(--fontSecondary);
+    font-size: 1.8rem;
+}
+
+.profileRole {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 0.2rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.profileDetails {
+    padding: 2rem;
+}
+
+.detailRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.detailRow:last-child {
+    border-bottom: none;
+}
+
+.detailLabel {
+    font-weight: 600;
+    color: #777;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detailValue {
+    font-weight: 500;
+    color: var(--textDark);
+    text-align: right;
+    position: relative;
+}
+
+.profileActions {
+    padding: 1rem 2rem 2rem;
+    text-align: center;
+    border-top: 1px solid #eee;
+}
+.profileActions .btnPrimary {
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+/* DATA TABLE STYLING (FOR REPORTS & AUDIT) */
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background: #fff;
+    font-size: 0.95rem;
+    min-width: 800px;
+}
+
+.report-table th, .report-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.report-table th {
+    background-color: var(--primaryBg);
+    color: var(--textLight);
+    position: sticky;
+    top: 0;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.report-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.report-table tr:hover {
+    background-color: #f0f0f0;
+    cursor: pointer; /* Indicates clickability for audit rows */
+}
+
+.report-table td.amount-col {
+    font-weight: bold;
+    color: var(--accentColor);
+    text-align: right;
+}
+
+.report-table .status-low {
+    color: #c00;
+    font-weight: bold;
+    background: #ffe6e6;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.report-summary-box {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    text-align: right;
+}
+.report-summary-box p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--textDark);
+}
+
+/* Audit Status Colors */
+.audit-status {
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: capitalize;
+    display: inline-block;
+    text-align: center;
+    min-width: 80px;
+}
+.audit-status.completed { 
+    color: #27ae60; 
+    background-color: #d4edda; 
+    border: 1px solid #c3e6cb;
+} 
+.audit-status.refunded { 
+    color: #8e44ad; 
+    background-color: #f3e5f5; 
+    border: 1px solid #e1bee7;
+} 
+.audit-status.cancelled { 
+    color: #721c24; 
+    background-color: #f8d7da; 
+    border: 1px solid #f5c6cb;
+} 
+.audit-status.pending { 
+    color: #856404; 
+    background-color: #fff3cd; 
+    border: 1px solid #ffeeba;
+}
+
+/* audit item details */
+.audit-item-details {
+    color: #666;
+    font-size: 0.85em;
+}
+
+/* Timeline Styles for History Modal */
+.history-timeline {
+    border-left: 3px solid var(--borderColor);
+    margin-left: 1rem;
+    padding-left: 1.5rem;
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.history-item {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+.history-item::before {
+    content: '';
+    position: absolute;
+    left: -1.9rem; /* Adjust based on border width and padding */
+    top: 0.2rem;
+    width: 12px;
+    height: 12px;
+    background-color: var(--primaryBg);
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px var(--borderColor);
+}
+.history-item:last-child {
+    margin-bottom: 0;
+}
+.history-date {
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 0.25rem;
+}
+.history-action {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--textDark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.history-staff {
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+    color: #555;
+}
+.history-details {
+    background: #f9f9f9;
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    border: 1px solid #eee;
+}
+
+/* Print styles: show only modal content when printing and center it */
+@media print {
+    /* Hide everything by default */
+    body * { visibility: hidden !important; }
+
+    /* Show modal backdrop and content */
+    #modalBackdrop, #modalContent, #modalContent * { visibility: visible !important; }
+
+    /* Center modal content on page */
+    #modalContent {
+        position: fixed !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 100% !important;
+        max-width: 900px !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        margin: 0 !important;
+        padding: 0.5rem !important;
+    }
+
+    /* Hide elements we don't want printed (buttons, close icons) */
+    .no-print { display: none !important; }
+
+    /* Hide modal chrome for a cleaner print where necessary */
+    .modalFooter { display: none !important; }
+
+    /* Keep header title visible but style for print */
+    .modalHeader { display: block !important; text-align: center !important; }
+
+    /* Make modal body content use available width */
+    .modal-body-scroll { overflow: visible !important; max-height: none !important; }
+
+    /* Ensure tables are full-width but centered */
+    .report-table { width: 100% !important; margin: 0 auto !important; }
+
+    /* Make bullet lists visible and left-aligned inside modal */
+    .audit-item-list { list-style: disc; margin: 0.6rem 0 0 1.2rem; font-size: 0.95rem; }
+
+    /* Ensure receipts use full width and are centered */
+    .receiptModal { width: 100% !important; margin: 0 auto !important; }
+
+    /* Remove modal backdrop visual artifacts */
+    #modalBackdrop { background: transparent !important; }
+}

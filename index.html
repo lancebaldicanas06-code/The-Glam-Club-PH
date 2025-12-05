@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Glam Club PH</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen">
+        <div class="loginContainer">
+            <img src="TGC_LOGO.jpeg" alt="TGC Logo" class="logo">
+            <h1>The Glam Club PH</h1>
+            
+            <!-- Step 1: Role Selection Panel -->
+            <div id="roleSelectionPanel" class="hidden">
+                <p class="rolePrompt">Please select your role</p>
+                <div class="roleButtons">
+                    <button class="roleBtn" onclick="showLoginForm('staff')">
+                        <i class="fas fa-user-tag"></i>
+                        <span>Staff</span>
+                    </button>
+                    <button class="roleBtn" onclick="showLoginForm('admin')">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Admin</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Login Form (Hidden initially) -->
+            <div id="loginFormBlock" class="hidden">
+                <p id="loginRoleDisplay" style="margin-bottom: 1.5rem; color: #777; font-weight: 500;"></p>
+                <div id="loginError" class="hidden">Invalid credentials. Please try again.</div>
+                <div class="formGroup">
+                    <input type="text" id="mainUsername" placeholder="Username" required>
+                </div>
+                <div class="formGroup">
+                    <div class="password-wrapper">
+                        <input type="password" id="mainPassword" placeholder="Password" required>
+                        <i class="fas fa-eye toggle-password"></i>
+                    </div>
+                </div>
+                <button class="btnPrimary" onclick="handleMainLogin()">Login</button>
+                <button class="btnText" onclick="backToRoleSelection()">Back to Role Selection</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application Container -->
+    <div class="appContainer hidden">
+        <aside class="sidebar">
+            <div class="sidebarHeader">
+                <img src="TGC_LOGO.jpeg" alt="TGC Logo" class="logo">
+                <h1>The Glam Club PH</h1>
+            </div>
+            <nav class="sidebarNav">
+                <button onclick="showSection('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</button>
+                <button onclick="showSection('inventory')"><i class="fas fa-boxes-stacked"></i> Inventory</button>
+                <button onclick="showSection('order')"><i class="fas fa-shopping-cart"></i> Create Order</button>
+                <button onclick="showSection('history')"><i class="fas fa-history"></i> Purchase History</button>
+                <!-- Admin Panel Button: Hidden by default, shown via JS for admins -->
+                <button id="navAdminBtn" onclick="showSection('admin')" class="hidden"><i class="fas fa-user-shield"></i> Admin Panel</button>
+                
+                <!-- Profile Button -->
+                <button onclick="showSection('profile')"><i class="fas fa-id-card"></i> My Profile</button>
+
+                <!-- Logout Button -->
+                <button onclick="logout()" class="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </nav>
+            <div class="sidebarFooter">
+                <p>&copy; 2025 The Glam Club PH</p>
+            </div>
+        </aside>
+
+        <main class="mainContent">
+            <!-- Dashboard/Main Menu Section -->
+            <section id="dashboard" class="active">
+                <h2 id="welcomeMessage">Welcome, Personnel</h2>
+                <div class="dashboardWidgets">
+                    <div class="widget">
+                        <h3>Total Products</h3>
+                        <p id="widgetTotalProducts">0</p>
+                    </div>
+                    <div class="widget">
+                        <h3>Items Sold Today</h3>
+                        <p id="widgetItemsSold">0</p>
+                    </div>
+                    <div class="widget">
+                        <h3>Today's Revenue</h3>
+                        <p id="widgetRevenue">₱0.00</p>
+                    </div>
+                     <div class="widget lowStockWidget">
+                        <h3>Low Stock Alerts</h3>
+                        <p id="widgetLowStock">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile">
+                <h2><i class="fas fa-id-card"></i> My Profile</h2>
+                <div class="profileContainer" id="userProfileDisplay">
+                    <!-- Profile details injected via JS -->
+                </div>
+            </section>
+
+            <!-- Inventory Section -->
+            <section id="inventory">
+                <h2><i class="fas fa-boxes-stacked"></i> Inventory Management</h2>
+                
+                <!-- Filter Bar with Auto-Update -->
+                <div class="filterBar">
+                    <div class="formGroup filterGroup">
+                        <label for="inventoryFilterBrand"><i class="fas fa-building"></i> Brand</label>
+                        <select id="inventoryFilterBrand" onchange="updateInventoryFilter('brand', this.value)"></select>
+                    </div>
+                    <div class="formGroup filterGroup">
+                        <label for="inventoryFilterName"><i class="fas fa-search"></i> Name</label>
+                        <select id="inventoryFilterName" onchange="updateInventoryFilter('name', this.value)"></select>
+                    </div>
+                    <div class="formGroup filterGroup">
+                        <label for="inventoryFilterType"><i class="fas fa-tag"></i> Type</label>
+                        <select id="inventoryFilterType" onchange="updateInventoryFilter('type', this.value)"></select>
+                    </div>
+                    <div class="formGroup filterGroup">
+                        <label for="inventoryFilterSize"><i class="fas fa-ruler-combined"></i> Size</label>
+                        <select id="inventoryFilterSize" onchange="updateInventoryFilter('size', this.value)"></select>
+                    </div>
+
+                    <div class="formGroup filterGroup colorFilterGroup">
+                        <label for="inventoryFilterColor"><i class="fas fa-palette"></i> Color</label>
+                        <select id="inventoryFilterColor" onchange="updateInventoryFilter('color', this.value)"></select>
+                    </div>
+                </div>
+
+                <div id="inventoryList" class="inventoryGrid">
+                    <!-- Inventory items will be generated here -->
+                </div>
+            </section>
+
+            <!-- Create Order Section -->
+            <section id="order">
+                <h2><i class="fas fa-shopping-cart"></i> Create a New Order</h2>
+                 <div class="orderLayout">
+                    <div class="orderProducts">
+                        <h3>Available Products</h3>
+                        
+                        <!-- Filter Bar for Order Section with Auto-Update -->
+                        <div class="filterBar">
+                            <div class="formGroup filterGroup">
+                                <label for="orderFilterBrand"><i class="fas fa-building"></i> Brand</label>
+                                <select id="orderFilterBrand" onchange="updateOrderFilter('brand', this.value)"></select>
+                            </div>
+                            <div class="formGroup filterGroup">
+                                <label for="orderFilterName"><i class="fas fa-search"></i> Name</label>
+                                <select id="orderFilterName" onchange="updateOrderFilter('name', this.value)"></select>
+                            </div>
+                            <div class="formGroup filterGroup">
+                                <label for="orderFilterType"><i class="fas fa-tag"></i> Type</label>
+                                <select id="orderFilterType" onchange="updateOrderFilter('type', this.value)"></select>
+                            </div>
+                            <div class="formGroup filterGroup">
+                                <label for="orderFilterSize"><i class="fas fa-ruler-combined"></i> Size</label>
+                                <select id="orderFilterSize" onchange="updateOrderFilter('size', this.value)"></select>
+                            </div>
+                            <div class="formGroup filterGroup colorFilterGroup">
+                                <label for="orderFilterColor"><i class="fas fa-palette"></i> Color</label>
+                                <select id="orderFilterColor" onchange="updateOrderFilter('color', this.value)"></select>
+                            </div>
+                        </div>
+
+                        <div id="orderProductList" class="inventoryGrid">
+                            <!-- Products to add to order are listed here -->
+                        </div>
+                    </div>
+                    <div class="orderCart">
+                        <h3>Current Order</h3>
+                        <div class="formGroup">
+                            <label for="customerName">Customer Name:</label>
+                            <input type="text" id="customerName" placeholder="Enter customer's name">
+                        </div>
+                        <div id="cartItems">
+                            <p class="emptyCartMsg">Your cart is empty.</p>
+                        </div>
+                        <div class="cartSummary">
+                            <strong>Total:</strong>
+                            <span id="cartTotal">₱0.00</span>
+                        </div>
+                        <button class="btnPrimary" onclick="handleCheckout()">
+                            <i class="fas fa-cash-register"></i> Proceed to Checkout
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section id="history">
+                <h2><i class="fas fa-history"></i> Purchase History</h2>
+                
+                <div class="historyFilterBar">
+                    <button class="filterTag active" onclick="setHistoryFilter('All', this)">All</button>
+                    <button class="filterTag" onclick="setHistoryFilter('pending', this)">To Pay / Pending</button>
+                    <button class="filterTag" onclick="setHistoryFilter('completed', this)">Completed</button>
+                    <button class="filterTag" onclick="setHistoryFilter('refunded', this)">Refunded</button>
+                    <button class="filterTag" onclick="setHistoryFilter('cancelled', this)">Cancelled</button>
+                </div>
+
+                <div class="searchBar">
+                    <input type="text" id="historySearchInput" placeholder="Search by Customer Name or Transaction ID..." onkeyup="renderPurchaseHistory()">
+                </div>
+                
+                <div id="historyList">
+                    <!-- History list will be populated by renderPurchaseHistory() -->
+                </div>
+            </section>
+
+            <!-- Admin Section -->
+            <section id="admin">
+                 <h2><i class="fas fa-user-shield"></i> Admin Control Panel</h2>
+                 <div id="adminTools">
+                    <div class="adminGrid">
+                         <div class="adminCard" onclick="openRegisterUserModal()">
+                            <i class="fas fa-user-plus"></i>
+                            <h3>Register User</h3>
+                            <p>Create a new account for staff or admin.</p>
+                        </div>
+                        <div class="adminCard" onclick="openRemoveUserModal()">
+                            <i class="fas fa-user-minus"></i>
+                            <h3>Remove User</h3>
+                            <p>Delete a staff or admin account.</p>
+                        </div>
+                        <div class="adminCard" onclick="openAddItemModal()">
+                            <i class="fas fa-plus-circle"></i>
+                            <h3>Add New Item</h3>
+                            <p>Add a new bag or shirt to the inventory.</p>
+                        </div>
+                         <div class="adminCard" onclick="openEditItemModal()">
+                            <i class="fas fa-edit"></i>
+                            <h3>Edit Item</h3>
+                            <p>Modify details of an existing item.</p>
+                        </div>
+                        <div class="adminCard" onclick="openRemoveItemModal()">
+                            <i class="fas fa-trash-alt"></i>
+                            <h3>Remove Item</h3>
+                            <p>Delete an item from the inventory.</p>
+                        </div>
+                        <div class="adminCard" onclick="showLowStockReport()">
+                            <i class="fas fa-triangle-exclamation"></i>
+                            <h3>Low Stock Report</h3>
+                            <p>View items that are below their reorder point.</p>
+                        </div>
+                         <div class="adminCard" onclick="showDailySalesReport()">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Daily Sales Report</h3>
+                            <p>Generate a sales report for a specific date.</p>
+                        </div>
+                        <!-- AUDIT TRAIL BUTTON -->
+                        <div class="adminCard" onclick="showAuditTrail()">
+                            <i class="fas fa-clipboard-list"></i>
+                            <h3>Audit Trail</h3>
+                            <p>View detailed logs of staff activity.</p>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal Container -->
+    <div id="modalBackdrop" class="hidden">
+        <div id="modalContent">
+            <!-- Modal content will be dynamically injected here -->
+        </div>
+    </div>
+    <!-- Toast container (bottom-right) -->
+    <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Hamburger toggle for small screens (hidden on login/role selection) -->
+    <button id="hamburgerBtn" class="hamburgerBtn" style="display:none;" aria-label="Toggle sidebar" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
